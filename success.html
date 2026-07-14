@@ -141,6 +141,76 @@ h1 { color: #28a745; margin-bottom: 8px; font-size: 1.5rem; }
 }
 .btn-home:hover { background: #333; }
 
+/* ===== RATING ===== */
+#ratingBox {
+  border: 1.5px solid #eee;
+  border-radius: 14px;
+  padding: 22px 20px;
+  margin-bottom: 22px;
+  text-align: center;
+  background: #fafafa;
+}
+#ratingBox h3 {
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 6px;
+}
+#ratingBox .rating-sub {
+  font-size: 0.82rem;
+  color: #777;
+  margin-bottom: 14px;
+}
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.stars span {
+  font-size: 2.1rem;
+  cursor: pointer;
+  color: #ddd;
+  transition: color 0.15s ease, transform 0.1s ease;
+  user-select: none;
+}
+.stars span:hover { transform: scale(1.12); }
+.stars span.active { color: #f5a623; }
+
+.btn-rating {
+  width: 100%;
+  padding: 13px 20px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: var(--primary);
+  color: white;
+  transition: background 0.25s ease, opacity 0.2s ease;
+}
+.btn-rating:hover { background: var(--primary-hover); }
+.btn-rating:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.rating-thanks {
+  font-size: 0.9rem;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.rating-msg {
+  font-size: 0.8rem;
+  color: #c0392b;
+  margin-top: 8px;
+  min-height: 16px;
+}
+
+@media print {
+  #ratingBox { display: none !important; }
+}
+
 /* ===== PRINT MODE ===== */
 @media print {
   body {
@@ -203,8 +273,8 @@ h1 { color: #28a745; margin-bottom: 8px; font-size: 1.5rem; }
     <div class="qris">
       <img src="images/qris.jpeg" alt="QRIS Nauli Wear">
     </div>
-    <p class="qris-caption">QRIS a.n. Indah Katawari Tresia</p>
-    <p class="bri-caption">Transfer manual: BRI 036701113431502 a.n. Indah Katawari Tresia</p>
+    <p class="qris-caption">QRIS a.n. USAHA NAKHA</p>
+    <p class="bri-caption">Transfer manual: BRI 036701113431502 a.n. USAHA NAKHA</p>
   </div>
 
   <div class="note">
@@ -217,6 +287,22 @@ h1 { color: #28a745; margin-bottom: 8px; font-size: 1.5rem; }
     </ul>
   </div>
 
+  <div id="ratingBox">
+    <h3>Beri Rating Pesanan Kamu</h3>
+    <p class="rating-sub">Bantu kami jadi lebih baik dengan kasih rating 1-5 bintang 🙏</p>
+
+    <div class="stars" id="stars">
+      <span data-value="1">★</span>
+      <span data-value="2">★</span>
+      <span data-value="3">★</span>
+      <span data-value="4">★</span>
+      <span data-value="5">★</span>
+    </div>
+
+    <button class="btn-rating" id="btnKirimRating" disabled>Kirim Rating</button>
+    <p class="rating-msg" id="ratingMsg"></p>
+  </div>
+
   <div class="btn-group">
     <button class="btn btn-print" onclick="window.print()">🖨️ Cetak Struk</button>
     <a href="index.html" class="btn btn-home">Kembali ke Home</a>
@@ -226,11 +312,94 @@ h1 { color: #28a745; margin-bottom: 8px; font-size: 1.5rem; }
 
 <script>
 const params = new URLSearchParams(window.location.search);
-document.getElementById("orderId").innerText = params.get("id") || "-";
+const orderId = params.get("id") || "-";
+document.getElementById("orderId").innerText = orderId;
 document.getElementById("harga").innerText = params.get("harga") || "Rp0";
 document.getElementById("orderDate").innerText = new Date().toLocaleDateString("id-ID", {
   day: "numeric", month: "long", year: "numeric"
 });
+
+/* ===================================================
+   FITUR RATING
+=================================================== */
+(function () {
+  const ratingBox = document.getElementById("ratingBox");
+  const starsWrap = document.getElementById("stars");
+  const stars = Array.from(starsWrap.querySelectorAll("span"));
+  const btnKirim = document.getElementById("btnKirimRating");
+  const ratingMsg = document.getElementById("ratingMsg");
+
+  let selectedRating = 0;
+  const storageKey = "nauliwear_rated_" + orderId;
+
+  // kalau ID gak valid, sembunyikan kotak rating
+  if (!orderId || orderId === "-") {
+    ratingBox.style.display = "none";
+    return;
+  }
+
+  // kalau order ini udah pernah dikasih rating di browser ini, tampilkan ucapan terima kasih
+  if (localStorage.getItem(storageKey)) {
+    showThanks(localStorage.getItem(storageKey));
+    return;
+  }
+
+  function renderStars(value) {
+    stars.forEach(star => {
+      star.classList.toggle("active", Number(star.dataset.value) <= value);
+    });
+  }
+
+  function showThanks(value) {
+    ratingBox.innerHTML = `
+      <h3>Terima kasih atas ratingnya! ⭐ ${value}/5</h3>
+      <p class="rating-sub">Rating kamu sudah kami simpan.</p>
+    `;
+  }
+
+  stars.forEach(star => {
+    star.addEventListener("mouseenter", () => renderStars(Number(star.dataset.value)));
+    star.addEventListener("mouseleave", () => renderStars(selectedRating));
+    star.addEventListener("click", () => {
+      selectedRating = Number(star.dataset.value);
+      renderStars(selectedRating);
+      btnKirim.disabled = false;
+      ratingMsg.innerText = "";
+    });
+  });
+
+  btnKirim.addEventListener("click", async () => {
+    if (selectedRating < 1) return;
+
+    btnKirim.disabled = true;
+    btnKirim.innerText = "Mengirim...";
+    ratingMsg.innerText = "";
+
+    try {
+      const response = await fetch("/api/rating", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: orderId, rating: selectedRating })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        localStorage.setItem(storageKey, String(selectedRating));
+        showThanks(selectedRating);
+      } else {
+        ratingMsg.innerText = result.message || "Gagal mengirim rating.";
+        btnKirim.disabled = false;
+        btnKirim.innerText = "Kirim Rating";
+      }
+    } catch (err) {
+      console.error(err);
+      ratingMsg.innerText = "Gagal menghubungi server, coba lagi.";
+      btnKirim.disabled = false;
+      btnKirim.innerText = "Kirim Rating";
+    }
+  });
+})();
 </script>
 
 </body>
