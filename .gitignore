@@ -1,0 +1,15 @@
+# Jangan commit file environment/kredensial lokal
+.env
+.env.local
+config.local.php
+
+# File sistem
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Log
+*.log
