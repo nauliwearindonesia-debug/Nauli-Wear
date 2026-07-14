@@ -1,29 +1,26 @@
-<script>
-document.getElementById("ratingForm").addEventListener("submit", async function(e){
+const ratingForm = document.getElementById("ratingForm");
 
-    e.preventDefault();
+if (ratingForm) {
+    ratingForm.addEventListener("submit", async function(e){
 
-    const rating = document.querySelector("[name='rating']").value;
-    const id = document.querySelector("[name='id_pesanan']").value;
+        e.preventDefault();
 
-    const response = await fetch("/api/rating",{
+        const rating = document.querySelector("[name='rating']").value;
+        const id = document.querySelector("[name='id_pesanan']").value;
 
-        method:"POST",
+        const response = await fetch("/api/rating",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                id:id,
+                rating:rating
+            })
+        });
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+        const result = await response.json();
 
-        body:JSON.stringify({
-            id:id,
-            rating:rating
-        })
-
+        alert(result.message);
     });
-
-    const result = await response.json();
-
-    alert(result.message);
-
-});
-</script>
+}
