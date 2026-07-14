@@ -331,6 +331,16 @@ section { padding: 100px 8%; }
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+.payment-note {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.payment-alt {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: #666;
 }
 
 /* ===================================================
