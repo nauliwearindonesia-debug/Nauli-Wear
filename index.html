@@ -1,26 +1,336 @@
-const ratingForm = document.getElementById("ratingForm");
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nauli Wear | Fashion Lokal Premium</title>
+<meta name="description" content="Nauli Wear - Fashion lokal premium dengan desain modern, elegan, dan nyaman digunakan. Belanja koleksi terbaru sekarang.">
+<meta name="keywords" content="fashion lokal, fashion premium, nauli wear, baju modern, gaun elegan">
+<meta name="author" content="Nauli Wear">
 
-if (ratingForm) {
-    ratingForm.addEventListener("submit", async function(e){
+<!-- Open Graph -->
+<meta property="og:title" content="Nauli Wear | Fashion Lokal Premium">
+<meta property="og:description" content="Temukan koleksi fashion terbaik dengan desain modern, elegan dan nyaman digunakan.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/baju.jpeg">
+<meta property="og:locale" content="id_ID">
 
-        e.preventDefault();
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 
-        const rating = document.querySelector("[name='rating']").value;
-        const id = document.querySelector("[name='id_pesanan']").value;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        const response = await fetch("/api/rating",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                id:id,
-                rating:rating
-            })
-        });
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-        const result = await response.json();
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="logo">Nauli<span>Wear</span></a>
 
-        alert(result.message);
-    });
-}
+    <nav class="nav-menu" id="navMenu">
+      <ul>
+        <li><a href="#hero" class="nav-link">Beranda</a></li>
+        <li><a href="#produk" class="nav-link">Produk</a></li>
+        <li><a href="#tentang" class="nav-link">Tentang</a></li>
+        <li><a href="#cara-pesan" class="nav-link">Cara Pesan</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#footer" class="nav-link">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <a href="form.html" class="btn btn-primary nav-cta">Pesan Sekarang</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Buka menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-bg-shape" aria-hidden="true"></div>
+  <div class="hero-container reveal">
+    <h1 class="hero-title">Fashion Lokal <span>Premium</span></h1>
+    <p class="hero-desc">Temukan koleksi fashion terbaik dengan desain modern, elegan dan nyaman digunakan.</p>
+    <div class="hero-btns">
+      <a href="form.html" class="btn btn-primary">Belanja Sekarang</a>
+      <a href="#produk" class="btn btn-outline">Lihat Koleksi</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEST COLLECTION ============ -->
+<section class="collection" id="produk">
+  <div class="section-header reveal">
+    <h2>Best Collection</h2>
+    <p>Pilihan terbaik dari koleksi Nauli Wear</p>
+  </div>
+
+  <div class="product-grid">
+
+    <article class="product-card reveal">
+      <div class="product-img">
+        <img src="images/kerah.jpeg" alt="Kerah Nauli Wear" loading="lazy">
+      </div>
+      <div class="product-info">
+        <h3>Kerah Signature</h3>
+        <p class="price">Rp 150.000</p>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <a href="form.html" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+      </div>
+    </article>
+
+    <article class="product-card reveal">
+      <div class="product-img">
+        <img src="images/gaun.jpeg" alt="Gaun Nauli Wear" loading="lazy">
+      </div>
+      <div class="product-info">
+        <h3>Gaun Elegance</h3>
+        <p class="price">Rp 320.000</p>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <a href="form.html" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+      </div>
+    </article>
+
+    <article class="product-card reveal">
+      <div class="product-img">
+        <img src="images/bando.jpeg" alt="Bando Nauli Wear" loading="lazy">
+      </div>
+      <div class="product-info">
+        <h3>Bando Classic</h3>
+        <p class="price">Rp 75.000</p>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <a href="form.html" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+      </div>
+    </article>
+
+    <article class="product-card reveal">
+      <div class="product-img">
+        <img src="images/baju.jpeg" alt="Baju Nauli Wear" loading="lazy">
+      </div>
+      <div class="product-info">
+        <h3>Baju Modern Fit</h3>
+        <p class="price">Rp 210.000</p>
+        <div class="stars" aria-label="Rating 5 dari 5">★★★★★</div>
+        <a href="form.html" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ TENTANG ============ -->
+<section class="about" id="tentang">
+  <div class="about-container reveal">
+    <div class="about-text">
+      <h2>Tentang Nauli Wear</h2>
+      <p>Nauli Wear hadir sebagai brand fashion lokal yang mengutamakan kualitas, kenyamanan, dan desain modern. Setiap produk dirancang agar kamu tampil percaya diri dengan harga yang tetap terjangkau, tanpa mengorbankan gaya.</p>
+    </div>
+    <div class="about-img">
+      <img src="images/gaun.jpeg" alt="Tentang Nauli Wear" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ============ KENAPA MEMILIH KAMI ============ -->
+<section class="why-us">
+  <div class="section-header reveal">
+    <h2>Kenapa Memilih Kami</h2>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l2.6 6.6L22 9l-5.5 4.6L18 22l-6-4-6 4 1.5-8.4L2 9l7.4-.4z"/></svg>
+      </div>
+      <h3>Kualitas Premium</h3>
+      <p>Bahan pilihan dengan jahitan rapi dan tahan lama.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12c2-4 6-7 9-7s7 3 9 7c-2 4-6 7-9 7s-7-3-9-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3>Desain Modern</h3>
+      <p>Mengikuti tren fashion terkini dengan sentuhan elegan.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1v22M5 6h14M5 18h14"/></svg>
+      </div>
+      <h3>Harga Terjangkau</h3>
+      <p>Kualitas premium dengan harga yang tetap ramah di kantong.</p>
+    </div>
+
+    <div class="why-card reveal">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h13l-4-4m4 4l-4 4M17 5h4v14h-4"/></svg>
+      </div>
+      <h3>Pengiriman Cepat</h3>
+      <p>Pesanan diproses dan dikirim dengan cepat ke seluruh Indonesia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARA PEMESANAN ============ -->
+<section class="order-steps" id="cara-pesan">
+  <div class="section-header reveal">
+    <h2>Cara Pemesanan</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-step reveal">
+      <div class="step-number">1</div>
+      <h3>Pilih Produk</h3>
+    </div>
+    <div class="timeline-arrow" aria-hidden="true">↓</div>
+
+    <div class="timeline-step reveal">
+      <div class="step-number">2</div>
+      <h3>Isi Form</h3>
+    </div>
+    <div class="timeline-arrow" aria-hidden="true">↓</div>
+
+    <div class="timeline-step reveal">
+      <div class="step-number">3</div>
+      <h3>Transfer QRIS</h3>
+    </div>
+    <div class="timeline-arrow" aria-hidden="true">↓</div>
+
+    <div class="timeline-step reveal">
+      <div class="step-number">4</div>
+      <h3>Konfirmasi</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PEMBAYARAN ============ -->
+<section class="payment">
+  <div class="payment-container reveal">
+    <h2>Pembayaran</h2>
+    <p>Scan QRIS di bawah ini untuk menyelesaikan pembayaran kamu.</p>
+    <img src="images/qris.jpeg" alt="QRIS Nauli Wear" loading="lazy" class="qris-img">
+  </div>
+</section>
+
+<!-- ============ TESTIMONI ============ -->
+<section class="testimoni">
+  <div class="section-header reveal">
+    <h2>Testimoni</h2>
+  </div>
+
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <p>"Bahannya adem dan jahitannya rapi banget, worth it!"</p>
+      <h4>— Sarah A.</h4>
+    </div>
+    <div class="testi-card reveal">
+      <p>"Pengiriman cepat, packing aman, kualitas sesuai foto."</p>
+      <h4>— Dinda P.</h4>
+    </div>
+    <div class="testi-card reveal">
+      <p>"Desainnya elegan, cocok buat daily maupun formal."</p>
+      <h4>— Rani M.</h4>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="section-header reveal">
+    <h2>FAQ</h2>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-item reveal">
+      <button class="accordion-header">
+        Berapa lama proses pengiriman?
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <p>Pengiriman biasanya memakan waktu 2-5 hari kerja tergantung lokasi.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item reveal">
+      <button class="accordion-header">
+        Apa metode pembayaran yang tersedia?
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <p>Saat ini kami menerima pembayaran melalui QRIS.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item reveal">
+      <button class="accordion-header">
+        Apakah bisa request ukuran khusus?
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <p>Bisa, silakan cantumkan permintaan ukuran pada form pemesanan.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item reveal">
+      <button class="accordion-header">
+        Bagaimana cara melacak pesanan saya?
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <p>Nomor resi akan dikirimkan melalui WhatsApp setelah pesanan diproses.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item reveal">
+      <button class="accordion-header">
+        Apakah ada garansi produk?
+        <span class="accordion-icon">+</span>
+      </button>
+      <div class="accordion-content">
+        <p>Ya, kami memberikan garansi untuk produk cacat produksi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="cta-container reveal">
+    <h2>Siap Tampil Lebih Percaya Diri?</h2>
+    <a href="form.html" class="btn btn-primary">Pesan Sekarang</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>Nauli<span>Wear</span></h3>
+      <p>Jl. Contoh Alamat No. 123, Medan, Sumatera Utara</p>
+    </div>
+
+    <div class="footer-social">
+      <a href="https://wa.me/62812xxxxxxx" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://instagram.com/nauliwear" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com/@nauliwear" target="_blank" rel="noopener">TikTok</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2026 Nauli Wear. All rights reserved.</p>
+  </div>
+</footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas">↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>
+```
+
+PART 1 selesai. Bilang aja kalau mau lanjut PART 2 (css/style.css).
