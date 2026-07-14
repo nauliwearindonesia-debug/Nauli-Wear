@@ -113,4 +113,98 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  /* ===================================================
+     RATING PRODUK (KLIK BINTANG DI PRODUCT CARD)
+  =================================================== */
+  const rateWidgets = document.querySelectorAll('.rate-stars');
+
+  function paintStars(widget, value) {
+    widget.querySelectorAll('span').forEach(star => {
+      star.classList.toggle('active', Number(star.dataset.value) <= value);
+    });
+  }
+
+  function lockWidget(widget, infoEl, average, count, justVoted) {
+    widget.classList.add('voted');
+    paintStars(widget, Math.round(average));
+    infoEl.textContent = justVoted
+      ? `Terima kasih! Rata-rata ${average} (${count} rating)`
+      : `Rata-rata ${average} dari ${count} rating`;
+  }
+
+  async function loadAverage(widget, infoEl, produk) {
+    try {
+      const res = await fetch('/api/product-rating');
+      const result = await res.json();
+      if (result.success) {
+        const found = result.data.find(item => item.produk === produk);
+        if (found) {
+          paintStars(widget, Math.round(found.average));
+          infoEl.textContent = `Rata-rata ${found.average} dari ${found.count} rating`;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  rateWidgets.forEach(widget => {
+    const produk = widget.dataset.produk;
+    const infoEl = widget.nextElementSibling; // <p class="rate-info">
+    const storageKey = 'nauliwear_product_rated_' + produk;
+    const stars = Array.from(widget.querySelectorAll('span'));
+
+    // kalau browser ini udah pernah kasih rating buat produk ini, kunci widgetnya
+    const alreadyVoted = localStorage.getItem(storageKey);
+
+    loadAverage(widget, infoEl, produk).then(() => {
+      if (alreadyVoted) {
+        widget.classList.add('voted');
+      }
+    });
+
+    if (alreadyVoted) return;
+
+    stars.forEach(star => {
+      star.addEventListener('mouseenter', () => {
+        if (!widget.classList.contains('voted')) {
+          paintStars(widget, Number(star.dataset.value));
+        }
+      });
+
+      star.addEventListener('click', async () => {
+        if (widget.classList.contains('voted')) return;
+
+        const value = Number(star.dataset.value);
+        widget.classList.add('voted'); // cegah klik dobel selagi request jalan
+
+        try {
+          const res = await fetch('/api/product-rating', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ produk, rating: value })
+          });
+          const result = await res.json();
+
+          if (result.success) {
+            localStorage.setItem(storageKey, String(value));
+            const avgRes = await fetch('/api/product-rating');
+            const avgResult = await avgRes.json();
+            const found = avgResult.success
+              ? avgResult.data.find(item => item.produk === produk)
+              : null;
+            lockWidget(widget, infoEl, found ? found.average : value, found ? found.count : 1, true);
+          } else {
+            widget.classList.remove('voted');
+            infoEl.textContent = result.message || 'Gagal mengirim rating.';
+          }
+        } catch (err) {
+          console.error(err);
+          widget.classList.remove('voted');
+          infoEl.textContent = 'Gagal menghubungi server, coba lagi.';
+        }
+      });
+    });
+  });
+
 });
