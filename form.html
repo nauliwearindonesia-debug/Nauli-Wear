@@ -1,62 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesan Sekarang | Nauli Wear</title>
+<meta name="description" content="Form pemesanan Nauli Wear - Fashion Lokal Premium.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .form-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-light);
+    padding: 120px 6% 60px;
+  }
+  .form-box {
+    background: #fff;
+    max-width: 520px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 44px 36px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  }
+  .form-box h1 {
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .form-box .form-sub {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+  .field { margin-bottom: 20px; }
+  .field label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: border-color 0.3s ease;
+    background: #fff;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .field textarea { resize: vertical; min-height: 90px; }
+  #ukuranField { display: none; }
+  .form-box .btn {
+    width: 100%;
+    text-align: center;
+    border: none;
+    margin-top: 6px;
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="form-page">
+  <div class="form-box">
+    <a href="index.html" class="back-link">&larr; Kembali ke Beranda</a>
+    <h1>Form Pemesanan</h1>
+    <p class="form-sub">Isi data di bawah ini untuk memesan produk Nauli Wear.</p>
+
+    <form id="orderForm">
+
+      <div class="field">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" name="nama" id="nama" placeholder="Nama kamu" required>
+      </div>
+
+      <div class="field">
+        <label for="produk">Pilih Produk</label>
+        <select name="produk" id="produk" required>
+          <option value="" disabled selected>-- Pilih Produk --</option>
+          <option value="Baju Fashion">Baju Fashion</option>
+          <option value="Gaun Modern">Gaun Modern (Rp350.000)</option>
+          <option value="Kerah Style">Kerah Style (Rp75.000)</option>
+          <option value="Bando Cantik">Bando Cantik (Rp15.000)</option>
+        </select>
+      </div>
+
+      <div class="field" id="ukuranField">
+        <label for="ukuran">Ukuran</label>
+        <select name="ukuran" id="ukuran">
+          <option value="" disabled selected>-- Pilih Ukuran --</option>
+          <option value="K">Kids (K) - Rp27.000</option>
+          <option value="O">Oversize (O) - Rp28.100</option>
+          <option value="S">Small (S) - Rp29.200</option>
+          <option value="M">Medium (M) - Rp33.600</option>
+          <option value="L">Large (L) - Rp35.800</option>
+          <option value="RMJ">Remaja (RMJ) - Rp38.000</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="hp">Nomor WhatsApp</label>
+        <input type="tel" name="hp" id="hp" placeholder="08xxxxxxxxxx" required>
+      </div>
+
+      <div class="field">
+        <label for="pembayaran">Metode Pembayaran</label>
+        <select name="pembayaran" id="pembayaran" required>
+          <option value="" disabled selected>-- Pilih Metode --</option>
+          <option value="QRIS">QRIS</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="alamat">Alamat Pengiriman</label>
+        <textarea name="alamat" id="alamat" placeholder="Alamat lengkap penerima" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Kirim Pesanan</button>
+    </form>
+  </div>
+</div>
+
 <script>
+  // Munculin field ukuran cuma kalau produk = Baju Fashion
+  const produkSelect = document.getElementById("produk");
+  const ukuranField = document.getElementById("ukuranField");
+  const ukuranSelect = document.getElementById("ukuran");
 
+  produkSelect.addEventListener("change", function () {
+    if (this.value === "Baju Fashion") {
+      ukuranField.style.display = "block";
+      ukuranSelect.setAttribute("required", "required");
+    } else {
+      ukuranField.style.display = "none";
+      ukuranSelect.removeAttribute("required");
+      ukuranSelect.value = "";
+    }
+  });
+</script>
+
+<script>
 document.getElementById("orderForm").addEventListener("submit", async function(e){
-
     e.preventDefault();
-
     const data = {
-
         nama: document.querySelector("[name='nama']").value,
-
         produk: document.querySelector("[name='produk']").value,
-
         ukuran: document.querySelector("[name='ukuran']")?.value || "",
-
         hp: document.querySelector("[name='hp']").value,
-
         pembayaran: document.querySelector("[name='pembayaran']").value,
-
         alamat: document.querySelector("[name='alamat']").value
-
     };
-
     try{
-
         const response = await fetch("/api/submit",{
-
             method:"POST",
-
             headers:{
                 "Content-Type":"application/json"
             },
-
             body:JSON.stringify(data)
-
         });
-
         const result = await response.json();
-
         if(result.success){
-
             alert("Pesanan berhasil dibuat");
-
             window.location.href="success.html?id="+result.id+
             "&harga="+encodeURIComponent(result.harga);
-
         }else{
-
             alert(result.message);
-
         }
-
     }catch(err){
-
         alert("Gagal menghubungi server");
-
         console.error(err);
-
     }
-
 });
-
 </script>
+
+</body>
+</html>
