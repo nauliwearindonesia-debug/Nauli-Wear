@@ -1,4 +1,4 @@
-import db from "../lib/db.js";
+import supabase from "../lib/db.js";
 
 export default async function handler(req, res) {
 
@@ -28,85 +28,52 @@ export default async function handler(req, res) {
                 case "K":
                     harga = "Rp27.000";
                     break;
-
                 case "O":
                     harga = "Rp28.100";
                     break;
-
                 case "S":
                     harga = "Rp29.200";
                     break;
-
                 case "M":
                     harga = "Rp33.600";
                     break;
-
                 case "L":
                     harga = "Rp35.800";
                     break;
-
                 case "RMJ":
                     harga = "Rp38.000";
                     break;
             }
 
         } else if (produk === "Gaun Modern") {
-
             harga = "Rp350.000";
-
         } else if (produk === "Kerah Style") {
-
             harga = "Rp75.000";
-
         } else if (produk === "Bando Cantik") {
-
             harga = "Rp15.000";
-
         }
 
-        const sql = `
-        INSERT INTO orders
-        (
-            nama,
-            produk,
-            ukuran,
-            hp,
-            pembayaran,
-            alamat,
-            rating
-        )
-        VALUES
-        (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?
-        )
-        `;
+        const { data, error } = await supabase
+            .from("orders")
+            .insert([{
+                nama,
+                produk,
+                ukuran: ukuran || "-",
+                hp,
+                pembayaran,
+                alamat,
+                rating: 0
+            }])
+            .select()
+            .single();
 
-        const [result] = await db.execute(sql, [
-            nama,
-            produk,
-            ukuran || "-",
-            hp,
-            pembayaran,
-            alamat,
-            0
-        ]);
+        if (error) throw error;
 
         res.status(200).json({
-
             success: true,
-
-            id: result.insertId,
-
+            id: data.id,
             harga: harga,
-
             message: "Pesanan berhasil disimpan"
-
         });
 
     } catch (err) {
@@ -114,11 +81,8 @@ export default async function handler(req, res) {
         console.log(err);
 
         res.status(500).json({
-
             success: false,
-
             message: err.message
-
         });
 
     }
