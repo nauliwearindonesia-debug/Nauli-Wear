@@ -1,4 +1,4 @@
-import db from "../lib/db.js";
+import supabase from "../lib/db.js";
 
 export default async function handler(req, res) {
 
@@ -11,10 +11,7 @@ export default async function handler(req, res) {
 
     try {
 
-        const {
-            id,
-            rating
-        } = req.body;
+        const { id, rating } = req.body;
 
         if (!id || !rating) {
             return res.status(400).json({
@@ -23,10 +20,12 @@ export default async function handler(req, res) {
             });
         }
 
-        await db.execute(
-            "UPDATE orders SET rating = ? WHERE id = ?",
-            [rating, id]
-        );
+        const { error } = await supabase
+            .from("orders")
+            .update({ rating })
+            .eq("id", id);
+
+        if (error) throw error;
 
         res.status(200).json({
             success: true,
