@@ -3,232 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Pembayaran Berhasil - Nauli Wear</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Poppins,Arial,sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', Arial, sans-serif;
 }
 
-body{
-    background:#f5f5f5;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
+:root {
+  --primary: #6E0D25;
+  --primary-hover: #8B1538;
 }
 
-.container{
-
-    width:100%;
-    max-width:700px;
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:35px;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
-
-    text-align:center;
-
+body {
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-.success{
-
-    font-size:70px;
-
-    margin-bottom:15px;
-
+.container {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  text-align: center;
 }
 
-h1{
+.success { font-size: 64px; margin-bottom: 12px; }
 
-    color:#28a745;
+h1 { color: #28a745; margin-bottom: 8px; font-size: 1.5rem; }
 
-    margin-bottom:10px;
+.subtitle { color: #666; margin-bottom: 25px; font-size: 0.92rem; }
 
+/* ===== RECEIPT / STRUK ===== */
+#struk {
+  border: 1.5px dashed #ccc;
+  border-radius: 14px;
+  padding: 22px 20px;
+  margin-bottom: 22px;
+  text-align: left;
+  background: #fafafa;
 }
 
-.subtitle{
+.struk-header { text-align: center; margin-bottom: 14px; }
+.struk-header .brand { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+.struk-header .brand span { color: #111; }
+.struk-header .tagline { font-size: 0.75rem; color: #888; margin-top: 2px; }
 
-    color:#666;
-
-    margin-bottom:30px;
-
+.struk-divider {
+  border: none;
+  border-top: 1px dashed #ccc;
+  margin: 14px 0;
 }
 
-.box{
+.struk-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  margin: 6px 0;
+  color: #333;
+}
+.struk-row span:first-child { color: #777; }
+.struk-row span:last-child { font-weight: 600; text-align: right; }
 
-    background:#fafafa;
+.struk-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.struk-total .label { font-size: 0.95rem; font-weight: 700; }
+.struk-total .price { font-size: 1.4rem; color: var(--primary); font-weight: 800; }
 
-    border:1px solid #ddd;
+.qris { margin: 8px 0 4px; text-align: center; }
+.qris img {
+  width: 190px;
+  max-width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+.qris-caption { font-size: 0.78rem; color: #666; margin-top: 6px; text-align: center; }
+.bri-caption { font-size: 0.78rem; color: #666; margin-top: 3px; text-align: center; }
 
-    border-radius:15px;
+.note {
+  background: #fff3cd;
+  color: #856404;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 22px;
+  text-align: left;
+  line-height: 1.7;
+  font-size: 0.85rem;
+}
+.note ul { margin-left: 18px; margin-top: 6px; }
 
-    padding:20px;
-
-    margin-bottom:25px;
-
+.btn-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.box p{
-
-    margin:10px 0;
-
-    font-size:16px;
-
+.btn {
+  flex: 1;
+  min-width: 140px;
+  display: inline-block;
+  padding: 13px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.25s ease;
 }
 
-.price{
-
-    font-size:32px;
-
-    color:#e53935;
-
-    font-weight:bold;
-
+.btn-print {
+  background: var(--primary);
+  color: white;
 }
+.btn-print:hover { background: var(--primary-hover); }
 
-.qris{
-
-    margin:20px 0;
-
+.btn-home {
+  background: #111;
+  color: white;
 }
+.btn-home:hover { background: #333; }
 
-.qris img{
-
-    width:260px;
-
-    max-width:100%;
-
-    border:1px solid #ddd;
-
-    border-radius:10px;
-
+/* ===== PRINT MODE ===== */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+    display: block;
+  }
+  .container {
+    box-shadow: none;
+    max-width: 100%;
+    padding: 0;
+  }
+  .success,
+  .subtitle,
+  .note,
+  .btn-group {
+    display: none !important;
+  }
+  #struk {
+    border: 1px dashed #999;
+  }
 }
-
-.note{
-
-    background:#fff3cd;
-
-    color:#856404;
-
-    padding:15px;
-
-    border-radius:10px;
-
-    margin-top:20px;
-
-    text-align:left;
-
-    line-height:1.8;
-
-}
-
-.btn{
-
-    display:inline-block;
-
-    margin-top:25px;
-
-    padding:14px 25px;
-
-    background:#000;
-
-    color:white;
-
-    text-decoration:none;
-
-    border-radius:10px;
-
-}
-
-.btn:hover{
-
-    background:#333;
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="success">✅</div>
+  <div class="success">✅</div>
+  <h1>Pesanan Berhasil Dibuat</h1>
+  <p class="subtitle">Terima kasih telah berbelanja di Nauli Wear.</p>
 
-<h1>Pesanan Berhasil Dibuat</h1>
+  <div id="struk">
+    <div class="struk-header">
+      <div class="brand">Nauli<span>Wear</span></div>
+      <div class="tagline">Fashion Lokal Premium</div>
+    </div>
 
-<p class="subtitle">
-Terima kasih telah berbelanja di Nauli Wear.
-</p>
+    <hr class="struk-divider">
 
-<div class="box">
+    <div class="struk-row">
+      <span>ID Pesanan</span>
+      <span id="orderId">-</span>
+    </div>
+    <div class="struk-row">
+      <span>Tanggal</span>
+      <span id="orderDate">-</span>
+    </div>
 
-<p><strong>ID Pesanan</strong></p>
+    <hr class="struk-divider">
 
-<p id="orderId">-</p>
+    <div class="struk-total">
+      <span class="label">Total Bayar</span>
+      <span class="price" id="harga">Rp0</span>
+    </div>
 
-<hr style="margin:15px 0;">
+    <hr class="struk-divider">
 
-<p><strong>Total Pembayaran</strong></p>
+    <div class="qris">
+      <img src="images/qris.jpeg" alt="QRIS Nauli Wear">
+    </div>
+    <p class="qris-caption">QRIS a.n. Indah Katawari Tresia</p>
+    <p class="bri-caption">Transfer manual: BRI 036701113431502 a.n. Indah Katawari Tresia</p>
+  </div>
 
-<div class="price" id="harga">Rp0</div>
+  <div class="note">
+    <b>Petunjuk Pembayaran</b>
+    <ul>
+      <li>Scan QRIS menggunakan aplikasi e-wallet atau mobile banking, atau transfer manual ke rekening BRI di atas.</li>
+      <li>Pastikan nominal pembayaran sesuai.</li>
+      <li>Simpan bukti pembayaran / struk ini.</li>
+      <li>Admin akan memproses pesanan setelah pembayaran diterima.</li>
+    </ul>
+  </div>
 
-</div>
-
-<h2>Scan QRIS</h2>
-
-<div class="qris">
-
-<img src="img/qris.jpeg" alt="QRIS">
-
-</div>
-
-<div class="note">
-
-<b>Petunjuk Pembayaran</b>
-
-<ul style="margin-left:20px;margin-top:10px;">
-
-<li>Scan QRIS menggunakan aplikasi e-wallet atau mobile banking.</li>
-
-<li>Pastikan nominal pembayaran sesuai.</li>
-
-<li>Simpan bukti pembayaran.</li>
-
-<li>Admin akan memproses pesanan setelah pembayaran diterima.</li>
-
-</ul>
-
-</div>
-
-<a href="index.html" class="btn">
-
-Kembali ke Home
-
-</a>
+  <div class="btn-group">
+    <button class="btn btn-print" onclick="window.print()">🖨️ Cetak Struk</button>
+    <a href="index.html" class="btn btn-home">Kembali ke Home</a>
+  </div>
 
 </div>
 
 <script>
-
-const params=new URLSearchParams(window.location.search);
-
-document.getElementById("orderId").innerText=params.get("id") || "-";
-
-document.getElementById("harga").innerText=params.get("harga") || "Rp0";
-
+const params = new URLSearchParams(window.location.search);
+document.getElementById("orderId").innerText = params.get("id") || "-";
+document.getElementById("harga").innerText = params.get("harga") || "Rp0";
+document.getElementById("orderDate").innerText = new Date().toLocaleDateString("id-ID", {
+  day: "numeric", month: "long", year: "numeric"
+});
 </script>
 
 </body>
