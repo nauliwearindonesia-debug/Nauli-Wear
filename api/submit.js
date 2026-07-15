@@ -1,5 +1,9 @@
 import supabase from "../lib/db.js";
 
+function formatRupiah(angka) {
+    return "Rp" + angka.toLocaleString("id-ID");
+}
+
 export default async function handler(req, res) {
 
     if (req.method !== "POST") {
@@ -20,38 +24,41 @@ export default async function handler(req, res) {
             pembayaran
         } = req.body;
 
-        let harga = "Rp0";
+        let subtotal = 0;
 
         if (produk === "Baju Fashion") {
 
             switch (ukuran) {
                 case "K":
-                    harga = "Rp27.000";
+                    subtotal = 27000;
                     break;
                 case "O":
-                    harga = "Rp28.100";
+                    subtotal = 28100;
                     break;
                 case "S":
-                    harga = "Rp29.200";
+                    subtotal = 29200;
                     break;
                 case "M":
-                    harga = "Rp33.600";
+                    subtotal = 33600;
                     break;
                 case "L":
-                    harga = "Rp35.800";
+                    subtotal = 35800;
                     break;
                 case "RMJ":
-                    harga = "Rp38.000";
+                    subtotal = 38000;
                     break;
             }
 
         } else if (produk === "Gaun Modern") {
-            harga = "Rp350.000";
+            subtotal = 350000;
         } else if (produk === "Kerah Style") {
-            harga = "Rp75.000";
+            subtotal = 75000;
         } else if (produk === "Bando Cantik") {
-            harga = "Rp15.000";
+            subtotal = 15000;
         }
+
+        const ongkir = 10000;
+        const total = subtotal + ongkir;
 
         const { data, error } = await supabase
             .from("orders")
@@ -72,7 +79,9 @@ export default async function handler(req, res) {
         res.status(200).json({
             success: true,
             id: data.id,
-            harga: harga,
+            subtotal: formatRupiah(subtotal),
+            ongkir: formatRupiah(ongkir),
+            harga: formatRupiah(total),
             message: "Pesanan berhasil disimpan"
         });
 
