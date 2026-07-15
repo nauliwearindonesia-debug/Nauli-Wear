@@ -186,6 +186,8 @@ document.getElementById("orderForm").addEventListener("submit", async function(e
         if(result.success){
             alert("Pesanan berhasil dibuat");
             window.location.href="success.html?id="+result.id+
+            "&subtotal="+encodeURIComponent(result.subtotal)+
+            "&ongkir="+encodeURIComponent(result.ongkir)+
             "&harga="+encodeURIComponent(result.harga);
         }else{
             alert(result.message);
